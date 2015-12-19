@@ -1,6 +1,7 @@
 package practicework.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -11,7 +12,17 @@ public class ReserveInputPage {
     private final By reserveDay = By.id("reserve_day");
     private final By reserveTerm = By.id("reserve_term");
     private final By goToNext = By.id("goto_next");
-
+    //ここから追記
+    private final By datePick = By.id("datePick");
+    private final By headCount = By.id("headcount");
+    private final By breakfastOn = By.id("breakfast_on");
+    private final By breakfastOff = By.id("breakfast_off");
+    private final By planA = By.id("plan_a");
+    private final By planB = By.id("plan_b");
+    private final By customerName = By.id("guestname");
+    private final By nextPage = By.id("goto_next");
+    private final By agree = By .id("agree_and_goto_next");
+    //ここまで追記
     public ReserveInputPage(WebDriver driver) {
         this.driver = driver;
     }
@@ -35,9 +46,10 @@ public class ReserveInputPage {
     }
     
     public void setReserveDate(String year, String month, String day) {
-        setReserveYear(year);
-        setReserveMonth(month);
-        setReserveDay(day);
+        WebElement element = driver.findElement(datePick);
+        element.clear();
+        element.sendKeys(year + "/" + month + "/" + day);
+        element.sendKeys(Keys.RETURN);
     }
 
     public void setReserveTerm(String value) {
@@ -45,7 +57,51 @@ public class ReserveInputPage {
         element.clear();
         element.sendKeys(value);
     }
-    
+    public void setPerson(String value){
+        WebElement element = driver.findElement(headCount);
+        element.clear();
+        element.sendKeys(value);
+    }
+    public void setBreakfast(Boolean on){
+        if(on){
+            WebElement element = driver.findElement(breakfastOn);
+            element.click();
+        }else{
+            WebElement element = driver.findElement(breakfastOff);
+            element.click();
+        }
+    }
+    public void outBreakfast(){
+        WebElement element = driver.findElement(breakfastOff);
+        element.click();
+    }
+    public void setPlanA(){
+        WebElement plan = driver.findElement(planA);
+        if(!plan.isSelected()){
+            plan.click();
+        }
+    }
+
+    public void setPlanB(){
+        WebElement plan = driver.findElement(planB);
+        if(!plan.isSelected()){
+            plan.click();
+        }
+    }
+    public void setName(String value){
+        WebElement input = driver.findElement(customerName);
+        input.clear();
+        input.sendKeys(value);
+    }
+    public  ReserveConfirmPage setAgree(){
+        WebElement plan = driver.findElement(agree);
+        if(!plan.isSelected()){
+            plan.click();
+        }
+        return new ReserveConfirmPage(driver);
+    }
+
+
     public ReserveConfirmPage goToNext() {
         driver.findElement(goToNext).click();
         return new ReserveConfirmPage(driver);

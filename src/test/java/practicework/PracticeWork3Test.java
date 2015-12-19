@@ -21,24 +21,39 @@ public class PracticeWork3Test extends ChromeDriverTest {
     }
 
     @Test
-    public void testReserveWith1Member() {
-        File html = new File("reserveApp/index.html");
+    public void testReserveWith1Member() throws InterruptedException {
+        File html = new File("reserveApp_Renewal/index.html");
         String url = html.toURI().toString();
         driver.get(url);
         
         ReserveInputPage inputPage = new ReserveInputPage(driver);
-        inputPage.setReserveDate("2013", "12", "8"); // TODO 明日以降直近の日曜日に変更してください
-        inputPage.setReserveTerm("3");
-        
+        inputPage.setReserveDate("2015", "12", "20"); // TODO 明日以降直近の日曜日に変更してください
+//        inputPage.setReserveTerm("3");
+
+
         // TODO 残りの処理を記述してください
-        
-        ReserveConfirmPage confirmPage = inputPage.goToNext();
-        
+        inputPage.setBreakfast(false);
+        //inputPage.outBreakfast();
+        //inputPage.setPlanA();
+        inputPage.setPlanB();
+        String name = "市川裕也";
+        inputPage.setName(name);
+        //inputPage.setAgree();
+        Thread.sleep(5000);
+        //ReserveConfirmPage confirmPage = inputPage.goToNext();
+
+        ReserveConfirmPage confirmPage =  inputPage.setAgree();
         // 2ページ目入力画面
-        assertThat(confirmPage.getPrice(), is("22750"));
-        assertThat(confirmPage.getDateFrom(), is("2013年12月8日")); // TODO 変更してください
-        assertThat(confirmPage.getDateTo(), is("2013年12月11日")); // TODO 変更してください
-        assertThat(confirmPage.getDaysCount(), is("3"));
+        //Thread.sleep(8000);
+        assertThat(confirmPage.getPrice(), is("9750"));
+        assertThat(confirmPage.getDateFrom(), is("2015年12月20日")); // TODO 変更してください
+        assertThat(confirmPage.getDateTo(), is("2015年12月21日")); // TODO 変更してください
+        assertThat(confirmPage.getDaysCount(), is("1"));
+        assertThat(confirmPage.existsPlanA(), is(false));
+        //assertThat(confirmPage.getPlanA(), is("昼からチェックインプラン"));
+        assertThat(confirmPage.existsPlanB(), is(true));
+        assertThat(confirmPage.getName(), is(name));
+        confirmPage.commit();
 
         // TODO 残りの処理を記述してください
     }

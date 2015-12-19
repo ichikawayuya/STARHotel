@@ -17,10 +17,11 @@ public class IntroWork9Test extends ChromeDriverTest {
         String url = html.toURI().toString();
         driver.get(url);
 
-        WebElement okButton = driver.findElement(By.id("ok_button"));
-        okButton.click();
+
 
         // TODO 以下を削除して、代わりに3秒後に「「OK」ボタンがクリックされました!」が表示されることを確認する処理を記述してください
+        WebElement okButton = driver.findElement(By.id("ok_button"));
+        okButton.click();
         Thread.sleep(8000);
         // TODO ここまで削除してください
     }
